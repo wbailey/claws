@@ -8,7 +8,7 @@ describe Claws::Configuration do
 
   context 'defines capistrano home' do
     it 'using default path' do
-      YAML.should_receive(:load_file).and_return(@yaml)
+      YAML.should_receive(:load_file).with("#{ENV['HOME']}/.claws.yml").and_return(@yaml)
       config = Claws::Configuration.new
       config.capistrano_home.should == 'test'
     end
@@ -25,5 +25,6 @@ describe Claws::Configuration do
     config = Claws::Configuration.new
     config.access_key_id.should == 'asdf'
     config.secret_access_key.should == 'qwer'
+    config.aws_credentials.should == {:access_key_id => 'asdf', :secret_access_key => 'qwer'}
   end
 end

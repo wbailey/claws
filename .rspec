@@ -1,1 +1,1 @@
---color --format p
+--color --format p -I spec/
