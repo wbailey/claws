@@ -58,7 +58,7 @@ describe Claws::Options do
   end
 
   context 'capistrano' do
-    it 'defines a environment' do
+    it 'defines the environment' do
       cli %w{-s production app} do
         Claws::Options.parse.environment.should == 'production'
       end
