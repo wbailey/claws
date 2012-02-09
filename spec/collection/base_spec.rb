@@ -21,5 +21,11 @@ describe Claws::Collection::Base do
     }.to_not raise_exception
   end
 
-  it 'builds a collection'
+  it 'builds a collection' do
+    subject.connect(@config.aws_credentials)
+
+    subject.build do |collection|
+      10.times {|i| collection << i}
+    end.should == (0..9).to_a
+  end
 end

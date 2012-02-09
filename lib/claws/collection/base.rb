@@ -8,8 +8,8 @@ module Claws
         AWS.start_memoizing
       end
 
+      # Seems unnecessary
       def self.build
-        self.connect
         collection = []
         yield(collection)
         collection

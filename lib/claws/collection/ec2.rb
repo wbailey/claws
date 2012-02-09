@@ -1,3 +1,4 @@
+require 'claws/collection/base'
 require 'aws-sdk'
 
 module Claws
