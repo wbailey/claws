@@ -1,4 +1,3 @@
 require 'claws/options'
-
-module Claws
-end
+require 'claws/support'
+# require 'claws/base'

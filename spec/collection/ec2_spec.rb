@@ -12,6 +12,7 @@ describe Claws::Collection::EC2 do
         double('AWS::EC2::Instance'),
       ]
     )
+    # Claws::EC2::Proxy
 
     subject.get.size.should == 2
   end

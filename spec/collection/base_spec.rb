@@ -15,7 +15,6 @@ describe Claws::Collection::Base do
   end
 
   it 'establishes a connection to the mothership' do
-
     expect {
       subject.connect(@config.aws_credentials)
     }.to_not raise_exception
