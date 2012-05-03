@@ -1,3 +1,4 @@
 require 'claws/options'
+require 'claws/configuration'
 require 'claws/support'
-# require 'claws/base'
+require 'claws/collection/base'

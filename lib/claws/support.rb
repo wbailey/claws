@@ -1,3 +1,4 @@
+# Wish this was part of the ruby core
 module Claws
   module Support
     def try(meth, *args, &block)
