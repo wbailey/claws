@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'aws-sdk'
-require 'claws/ec2/presenter'
+require 'claws/presenter/ec2'
 require 'claws/capistrano'
 
 describe Claws::EC2::Presenter do
