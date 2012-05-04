@@ -1,5 +1,6 @@
-require 'claws/collection/base'
 require 'aws-sdk'
+require 'claws/collection/base'
+require 'claws/ec2/presenter'
 
 module Claws
   module Collection
@@ -7,7 +8,7 @@ module Claws
       def self.get(filters = {})
         collection = []
         AWS::EC2.new.instances.each do |instance|
-          collection << instance
+          collection << Claws::EC2::Presenter.new(instance)
         end
         collection
       end

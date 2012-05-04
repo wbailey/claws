@@ -29,7 +29,11 @@ module Claws
         when @ec2.try(:tags) && @ec2.tags.has_key?(meth)
           @ec2.tags[meth] || 'N/A'
         else
-          @ec2.send(meth) || 'N/A'
+          begin
+            @ec2.send(meth)
+          rescue Exception
+            'N/A'
+          end
         end
       end
     end

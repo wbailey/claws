@@ -1,4 +1,5 @@
 require 'aws-sdk'
+require 'claws/ec2/presenter'
 
 module Claws
   module Collection
