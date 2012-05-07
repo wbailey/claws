@@ -30,7 +30,7 @@ describe Claws::EC2::Presenter do
 
     @full_presenter = subject.new(full_instance, cap.roles(full_instance.public_dns))
 
-    less_instance = double(AWS::EC2, :public_dns => nil, :security_groups => nil, :tags => nil, :elastic_ip => nil)
+    less_instance = double(AWS::EC2, :tags => nil)
     @less_presenter = subject.new(less_instance)
   end
 

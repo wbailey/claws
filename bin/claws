@@ -1,0 +1,6 @@
+#!/bin/env ruby
+require 'claws'
+
+CLaws::Collection::EC2.connect( YAML.load_file('/Users/w.bailey/.claws.yml') )
+
+col = Claws::Collection::EC2.get
