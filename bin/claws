@@ -1,6 +1,51 @@
 #!/bin/env ruby
 require 'claws'
+require 'command_line_reporter'
+require 'optparse'
+require 'ostruct'
 
-CLaws::Collection::EC2.connect( YAML.load_file('/Users/w.bailey/.claws.yml') )
+module Claws
+  module Report
+    class EC2
+      attr_accessor :config
 
-col = Claws::Collection::EC2.get
+      include CommandLineReporter
+
+      def initialize config
+        self.config = config
+      end
+
+      def run
+        Claws::Collection::EC2.connect( self.config.aws_credentials )
+        instances = Claws::Collection::EC2.get
+
+        table :border => true do
+          row :header => true do
+            self.config.fields.each do |field|
+              text = field[1]['title'] || field[0]
+              width = field[1]['width'] || nil
+              column text, :width => width, :color => 'red', :bold => true
+            end
+          end
+          instances.each do |i|
+            row do
+              self.config.fields.each do |field|
+                column i.send( field[0] )
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+end
+
+options = OpenStruct.new(
+  {
+    :config_file => nil
+  }
+)
+
+config = Claws::Configuration.new( options.config_file )
+
+Claws::Report::EC2.new( config ).run
