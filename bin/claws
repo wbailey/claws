@@ -21,16 +21,16 @@ module Claws
 
         table :border => true do
           row :header => true do
-            self.config.fields.each do |field|
-              text = field[1]['title'] || field[0]
-              width = field[1]['width'] || nil
+            self.config.fields.each do |field, properties|
+              text = properties['title'] || field
+              width = properties['width'] || nil
               column text, :width => width, :color => 'red', :bold => true
             end
           end
           instances.each do |i|
             row do
-              self.config.fields.each do |field|
-                column i.send( field[0] )
+              self.config.fields.each do |field, properties|
+                column i.send( field )
               end
             end
           end
