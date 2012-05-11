@@ -2,7 +2,7 @@ require 'yaml'
 
 module Claws
   class Configuration
-    attr_accessor :path, :capistrano_home, :access_key_id, :secret_access_key
+    attr_accessor :path, :capistrano_home, :access_key_id, :secret_access_key, :aws_user
 
     def initialize(use_path = nil)
       self.path = use_path || File.join(ENV['HOME'], '.claws.yml')
@@ -11,6 +11,7 @@ module Claws
       self.access_key_id = yaml['access_key_id']
       self.secret_access_key = yaml['secret_access_key']
       self.fields = yaml['fields']
+      self.aws_user = yaml['aws_user']
     end
 
     def fields= fields
