@@ -14,7 +14,7 @@ module Claws
     end
 
     def fields= fields
-      @fields = fields
+      @fields = fields.inject({}) {|h,v| h.merge({v[0] => OpenStruct.new(v[1])})}
     end
 
     def fields

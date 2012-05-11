@@ -21,20 +21,30 @@ module Claws
 
         table :border => true do
           row :header => true do
+            column 'Choice', :width => 6, :color => 'red', :bold => true, :align => 'right'
             self.config.fields.each do |field, properties|
-              text = properties['title'] || field
-              width = properties['width'] || nil
+              text = properties.title || field
+              width = properties.width || nil
               column text, :width => width, :color => 'red', :bold => true
             end
           end
+
+          choice = 0
+
           instances.each do |i|
             row do
+              column choice
               self.config.fields.each do |field, properties|
                 column i.send( field )
               end
             end
+            choice += 1
           end
         end
+
+        print 'Select server (enter q to quit): '
+
+        selection = gets.chomp.to_i
       end
     end
   end
