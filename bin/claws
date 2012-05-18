@@ -1,67 +1,52 @@
 #!/bin/env ruby
 require 'claws'
-require 'command_line_reporter'
 require 'optparse'
 require 'ostruct'
 
-module Claws
-  module Report
-    class EC2
-      attr_accessor :config
-
-      include CommandLineReporter
-
-      def initialize config
-        self.config = config
-      end
-
-      def run
-        Claws::Collection::EC2.connect( self.config.aws_credentials )
-        instances = Claws::Collection::EC2.get
-
-        table :border => true do
-          row :header => true do
-            column 'Choice', :width => 6, :color => 'red', :bold => true, :align => 'right'
-
-            self.config.fields.each do |field, properties|
-              text = properties.title || field
-              width = properties.width || nil
-              column text, :width => width, :color => 'red', :bold => true
-            end
-          end
-
-          choice = 0
-
-          instances.each do |i|
-            row do
-              column choice
-
-              self.config.fields.each do |field, properties|
-                column i.send( field )
-              end
-            end
-            choice += 1
-          end
-        end
-
-        print 'Select server (enter q to quit): '
-
-        selection = gets.chomp.to_i
-
-        puts 'connecting to server...'
-
-        system "ssh #{config.aws_user}@#{instances[selection].dns_name}"
-      end
-    end
-  end
+def usage
+  return <<EOF
+EOF
 end
 
 options = OpenStruct.new(
   {
-    :config_file => nil
+    :config_file => nil,
+    :connect => true,
+    :selection => nil,
   }
 )
 
-config = Claws::Configuration.new( options.config_file )
+OptionParser.new do |opts|
+  opts.banner = 'Usage: claws [options]'
 
-Claws::Report::EC2.new( config ).run
+  opts.on('-s', '--status-only', 'Display host status only and exit') do
+    options.connect = false
+  end
+
+  opts.on('-c', '--choice N', Float, 'Enter the number of the host to automatically connect to') do |n|
+    options.selection = n.to_i
+  end
+end.parse!
+
+config = Claws::Configuration.new( options.config_file )
+Claws::Collection::EC2.connect( config.aws_credentials )
+instances = Claws::Collection::EC2.get
+Claws::Report::EC2.new( config, instances ).run
+
+if options.connect
+  if instances.size == 1
+    puts
+    selection = 0
+  elsif options.selection
+    puts
+    selection = options.selection
+  else
+    print "Select server (enter q to quit): "
+    selection = gets.chomp.to_i
+    exit 0 if selection.match(/^q.*/i)
+  end
+
+  puts 'connecting to server...'
+
+  system "ssh #{config.aws_user}@#{instances[selection].dns_name}"
+end

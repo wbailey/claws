@@ -26,6 +26,8 @@ module Claws
 
       def method_missing(meth)
         case meth
+        when :name
+          @ec2.send(:tags)['Name'] || 'N/A'
         when @ec2.try(:tags) && @ec2.tags.has_key?(meth)
           @ec2.tags[meth] || 'N/A'
         else
