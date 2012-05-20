@@ -1,4 +1,5 @@
 require 'yaml'
+require 'ostruct'
 
 module Claws
   class Configuration
@@ -10,7 +11,7 @@ module Claws
       self.capistrano_home = yaml['capistrano_home']
       self.access_key_id = yaml['access_key_id']
       self.secret_access_key = yaml['secret_access_key']
-      self.fields = yaml['fields']
+      self.fields = yaml['fields'] unless yaml['fields'].nil?
       self.aws_user = yaml['aws_user']
     end
 

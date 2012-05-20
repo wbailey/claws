@@ -17,7 +17,7 @@ module Claws
       end
 
       def tags
-        @ec2.try(:tags) ? @ec2.tags.map {|t| "#{t.key}: #{t.value}"}.join(', ') : 'N/A'
+        @ec2.try(:tags) ? @ec2.tags.select {|k,v| [k,v] unless k.downcase == 'name'}.map{|k,v| "#{k}: #{v}"}.join(', ') : 'N/A'
       end
 
       def security_groups

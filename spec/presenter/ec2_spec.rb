@@ -16,9 +16,9 @@ describe Claws::EC2::Presenter do
         double(AWS::EC2::SecurityGroup, :name => 'mongo', :id => 'sg-0d0d0d0d'),
         double(AWS::EC2::SecurityGroup, :name => 'app', :id => 'sg-0c0c0c0c'),
       ],
-      :tags => double(AWS::EC2::ResourceTagCollection, :map => [
-          'Name: u_prod_wp001',
-          'environment: production',
+      :tags => double(AWS::EC2::ResourceTagCollection, :select => [
+          ['environment', 'production'],
+          ['function', 'master'],
         ],
         'has_key?'.to_sym => true
       ),
@@ -54,7 +54,7 @@ describe Claws::EC2::Presenter do
 
   describe '#tags' do
     it 'present a string summary' do
-      @full_presenter.tags.should == "Name: u_prod_wp001, environment: production"
+      @full_presenter.tags.should == 'environment: production, function: master'
     end
 
     it 'are not required' do

@@ -15,23 +15,32 @@ module Claws
       def run
         table :border => true do
           row :header => true do
-            column 'Choice', :width => 6, :color => 'red', :bold => true, :align => 'right'
+            column 'Choice', :width => 6, :color => 'blue', :bold => true, :align => 'right'
 
             self.config.fields.each do |field, properties|
               text = properties.title || field
               width = properties.width || nil
-              column text, :width => width, :color => 'red', :bold => true
+              column text, :width => width, :color => 'blue', :bold => true
             end
           end
 
           choice = 0
 
           self.instances.each do |i|
+            color = case i.status
+                    when :running
+                      'green'
+                    when :stopped
+                      'red'
+                    else
+                      'white'
+                    end
             row do
               column choice
 
               self.config.fields.each do |field, properties|
-                column i.send( field )
+                props = ( field == 'status' ) ? {:color => color} : {}
+                column i.send( field ), props
               end
             end
             choice += 1
