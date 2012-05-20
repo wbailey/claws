@@ -35,6 +35,7 @@ module Claws
                     else
                       'white'
                     end
+
             row do
               column choice
 
@@ -43,6 +44,7 @@ module Claws
                 column i.send( field ), props
               end
             end
+
             choice += 1
           end
         end
