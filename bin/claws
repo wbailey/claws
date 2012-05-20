@@ -2,16 +2,13 @@
 require 'claws'
 require 'optparse'
 require 'ostruct'
-
-def usage
-  return <<EOF
-EOF
-end
+require 'yaml'
 
 options = OpenStruct.new(
   {
     :config_file => nil,
     :connect => true,
+    :initialize => false,
     :selection => nil,
   }
 )
@@ -26,27 +23,14 @@ OptionParser.new do |opts|
   opts.on('-c', '--choice N', Float, 'Enter the number of the host to automatically connect to') do |n|
     options.selection = n.to_i
   end
+
+  opts.on('-i', '--init', 'Install the default configuration file for the application') do
+    options.initialize = true
+  end
 end.parse!
 
-config = Claws::Configuration.new( options.config_file )
-Claws::Collection::EC2.connect( config.aws_credentials )
-instances = Claws::Collection::EC2.get
-Claws::Report::EC2.new( config, instances ).run
-
-if options.connect
-  if instances.size == 1
-    puts
-    selection = 0
-  elsif options.selection
-    puts
-    selection = options.selection
-  else
-    print "Select server (enter q to quit): "
-    selection = gets.chomp.to_i
-    exit 0 if selection.match(/^q.*/i)
-  end
-
-  puts 'connecting to server...'
-
-  system "ssh #{config.aws_user}@#{instances[selection].dns_name}"
+if options.initialize
+  Claws::Command::Initialize.exec
+else
+  Claws::Command::EC2.exec options
 end
