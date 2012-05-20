@@ -14,7 +14,13 @@ module Claws
         end
 
         Claws::Collection::EC2.connect( config.aws_credentials )
-        instances = Claws::Collection::EC2.get
+
+        begin
+          instances = Claws::Collection::EC2.get
+        rescue Exception => e
+          puts e.message
+        end
+
         Claws::Report::EC2.new( config, instances ).run
 
         if options.connect
