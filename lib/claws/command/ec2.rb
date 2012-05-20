@@ -32,13 +32,13 @@ module Claws
             selection = options.selection
           else
             print "Select server (enter q to quit): "
-            selection = gets.chomp.to_i
+            selection = gets.chomp
             exit 0 if selection.match(/^q.*/i)
           end
 
           puts 'connecting to server...'
 
-          system "ssh #{config.aws_user}@#{instances[selection].dns_name}"
+          system "ssh #{config.aws_user}@#{instances[selection.to_i].dns_name}"
         end
       end
     end
