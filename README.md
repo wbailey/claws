@@ -52,7 +52,8 @@ Usage: claws [options]
 
 * Add filtering by regular expression for any field
 
-* Integrate with your projects Capistrano definitions so that one can filter by environment and roles.
+* Integrate with your projects Capistrano definitions so that one can filter by environment and
+  roles.
 
 * Add RDS and ELB support
 

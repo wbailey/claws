@@ -17,9 +17,9 @@ module Claws
           row :header => true do
             column 'Choice', :width => 6, :color => 'blue', :bold => true, :align => 'right'
 
-            self.config.fields.each do |field, properties|
-              text = properties.title || field
-              width = properties.width || nil
+            self.config.ec2.fields.each do |field, properties|
+              text = properties['title'] || field
+              width = properties['width'] || nil
               column text, :width => width, :color => 'blue', :bold => true
             end
           end
@@ -39,7 +39,7 @@ module Claws
             row do
               column choice
 
-              self.config.fields.each do |field, properties|
+              self.config.ec2.fields.each do |field, properties|
                 props = ( field == 'status' ) ? {:color => color} : {}
                 column i.send( field ), props
               end

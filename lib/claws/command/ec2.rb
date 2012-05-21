@@ -13,7 +13,7 @@ module Claws
           exit 1
         end
 
-        Claws::Collection::EC2.connect( config.aws_credentials )
+        Claws::Collection::EC2.connect( config.aws )
 
         begin
           instances = Claws::Collection::EC2.get
