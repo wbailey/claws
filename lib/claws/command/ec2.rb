@@ -38,7 +38,7 @@ module Claws
 
           puts 'connecting to server...'
 
-          system "ssh #{config.aws_user}@#{instances[selection.to_i].dns_name}"
+          system "ssh #{config.ssh.user}@#{instances[selection.to_i].dns_name}"
         end
       end
     end

@@ -8,8 +8,10 @@ module Claws
           'capistrano' => {
             'home' => nil,
           },
+          'ssh' => {
+            'user' => nil,
+          },
           'aws' => {
-            'aws_user' => nil,
             'access_key_id' => nil,
             'secret_access_key' => nil,
           },
@@ -51,8 +53,8 @@ module Claws
           }
         }
 
-        puts "Creating configuration file: #{conf}\n..."
         conf = File.join(ENV['HOME'], '.claws.yml')
+        puts "Creating configuration file: #{conf}\n..."
         File.open(conf, 'w').write(h.to_yaml)
         puts 'Complete!'
       end
