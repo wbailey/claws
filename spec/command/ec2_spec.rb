@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'claws/configuration'
 require 'claws/command/ec2'
 
 describe Claws::Command::EC2 do
