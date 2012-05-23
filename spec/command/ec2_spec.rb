@@ -134,6 +134,19 @@ describe Claws::Command::EC2 do
             subject.exec options
           }
         end
+
+        it 'presents a selection and allows a user to quit' do
+          Claws::Collection::EC2.should_receive(:connect).and_return(true)
+          Claws::Collection::EC2.should_receive(:get).and_return(instances)
+
+          subject.should_receive(:gets).and_return('q\n')
+
+          expect {
+            capture_stdout {
+              subject.exec options
+            }
+          }.should raise_exception SystemExit
+        end
       end
     end
   end
