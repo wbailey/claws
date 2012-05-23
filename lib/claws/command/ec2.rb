@@ -8,9 +8,6 @@ module Claws
           puts e.message
           puts 'Use the --init option to create a configuration file.'
           exit 1
-        rescue Exception => e
-          puts e.message
-          exit 1
         end
 
         Claws::Collection::EC2.connect( config.aws )
