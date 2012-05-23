@@ -81,13 +81,15 @@ describe Claws::Command::EC2 do
       end
 
       context 'single instance' do
+        let(:instances) do
+          [
+            double(AWS::EC2::Instance, :id => 'test', :status => 'running', :dns_name => 'test.com')
+          ]
+        end
+
         it 'automatically connects to the server' do
           Claws::Collection::EC2.should_receive(:connect).and_return(true)
-          Claws::Collection::EC2.should_receive(:get).and_return(
-            [
-              double(AWS::EC2::Instance, :id => 'test', :status => 'running', :dns_name => 'test.com')
-            ]
-          )
+          Claws::Collection::EC2.should_receive(:get).and_return(instances)
 
           subject.should_receive(:puts).twice
           subject.should_receive(:system).with('ssh test@test.com').and_return(0)
@@ -99,14 +101,17 @@ describe Claws::Command::EC2 do
       end
 
       context 'multiple instances' do
+        let(:instances) do
+          [
+            double(AWS::EC2::Instance, :id => 'test1', :status => 'running', :dns_name => 'test1.com'),
+            double(AWS::EC2::Instance, :id => 'test2', :status => 'running', :dns_name => 'test2.com'),
+            double(AWS::EC2::Instance, :id => 'test3', :status => 'running', :dns_name => 'test3.com'),
+          ]
+        end
+
         it 'handles user inputed selection from the command line' do
           Claws::Collection::EC2.should_receive(:connect).and_return(true)
-          Claws::Collection::EC2.should_receive(:get).and_return(
-            [
-              double(AWS::EC2::Instance, :id => 'test1', :status => 'running', :dns_name => 'test1.com'),
-              double(AWS::EC2::Instance, :id => 'test2', :status => 'running', :dns_name => 'test2.com'),
-            ]
-          )
+          Claws::Collection::EC2.should_receive(:get).and_return(instances)
 
           subject.should_receive(:puts).twice
           subject.should_receive(:system).with('ssh test@test2.com').and_return(0)
@@ -119,12 +124,7 @@ describe Claws::Command::EC2 do
 
         it 'presents a selection and connects to the server' do
           Claws::Collection::EC2.should_receive(:connect).and_return(true)
-          Claws::Collection::EC2.should_receive(:get).and_return(
-            [
-              double(AWS::EC2::Instance, :id => 'test1', :status => 'running', :dns_name => 'test1.com'),
-              double(AWS::EC2::Instance, :id => 'test2', :status => 'running', :dns_name => 'test2.com'),
-            ]
-          )
+          Claws::Collection::EC2.should_receive(:get).and_return(instances)
 
           subject.should_receive(:gets).and_return('1\n')
           subject.should_receive(:puts).once
