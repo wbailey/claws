@@ -5,13 +5,12 @@ account via the command line.
 
 [![Build Status](https://secure.travis-ci.org/wbailey/claws.png?branch=master)](http://travis-ci.org/wbailey/claws)
 
-An example of its usage appears below:
-
-* It provides a text based interface of the status of your hosts like similar to the AWS web console:
+An example of its usage appears below.  It provides a text based interface of the status of your
+hosts like similar to the AWS web console:
 
 ![Instances](http://i.imgur.com/VEC8V.png)
 
-* It gives you a choice of which host to connect to and invokes the proper ssh command:
+It gives you a choice of which host to connect to and invokes the proper ssh command:
 
 ![Connecting](http://i.imgur.com/b6ieS.png)
 
