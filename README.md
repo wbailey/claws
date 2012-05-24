@@ -1,7 +1,11 @@
 ## Command Line AWS
 
 This tool provides a simple and powerful way to interact with the hosts in your Amazon Web Services
-account via the command line.  An example of its usage appears below:
+account via the command line.
+
+[![Continuous Integration status](https://secure.travis-ci.org/ruby-claws/claws.png)](http://travis-ci.org/ruby-claws/claws)
+
+An example of its usage appears below:
 
 * It provides a text based interface of the status of your hosts like similar to the AWS web console:
 
