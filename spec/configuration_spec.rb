@@ -31,6 +31,7 @@ describe Claws::Configuration do
 
   describe '#initialize' do
     it 'defines default path' do
+      YAML.should_receive(:load_file).and_return( yaml )
       c = Claws::Configuration.new
       c.path.should == File.join(ENV['HOME'], '.claws.yml')
     end
