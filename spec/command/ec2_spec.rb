@@ -27,10 +27,32 @@ describe Claws::Command::EC2 do
     end
 
     context 'valid config file' do
+      before :each do
+        Claws::Configuration.stub(:new).and_return(
+          OpenStruct.new(
+            {
+              :ssh => OpenStruct.new(
+                { :user => 'test' }
+              ),
+              :ec2 => OpenStruct.new(
+                :fields => {
+                  :id => {
+                    :width => 10,
+                    :title => 'ID',
+                  }
+                }
+              )
+            }
+          )
+        )
+      end
+
       let(:options) { OpenStruct.new( { :config_file => nil, } ) }
+
       context 'instance collections' do
 
         it 'retrieves' do
+          Claws::Collection::EC2.should_receive(:connect).and_return(true)
           Claws::Collection::EC2.should_receive(:get).and_return([])
 
           capture_stdout {
@@ -39,6 +61,7 @@ describe Claws::Command::EC2 do
         end
 
         it 'handles errors retrieving' do
+          Claws::Collection::EC2.should_receive(:connect).and_return(true)
           Claws::Collection::EC2.should_receive(:get).and_raise(Exception)
           subject.should_receive(:puts).once
 
@@ -49,6 +72,9 @@ describe Claws::Command::EC2 do
       end
 
       it 'performs report' do
+        Claws::Collection::EC2.should_receive(:connect).and_return(true)
+        Claws::Collection::EC2.should_receive(:get).and_return([])
+
         expect {
           capture_stdout {
             subject.exec options
