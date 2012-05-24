@@ -3,7 +3,7 @@
 This tool provides a simple and powerful way to interact with the hosts in your Amazon Web Services
 account via the command line.
 
-[![Continuous Integration status](https://secure.travis-ci.org/ruby-claws/claws.png)](http://travis-ci.org/ruby-claws/claws)
+[![Build Status](https://secure.travis-ci.org/wbailey/claws.png?branch=master)](http://travis-ci.org/wbailey/claws)
 
 An example of its usage appears below:
 
