@@ -3,8 +3,8 @@
 This tool provides a simple and powerful way to interact with the hosts in your Amazon Web Services
 account via the command line.
 
-It provides a text based interface of the status of your hosts like similar to the AWS web console.
-An example of its usage appears below:
+It provides a configurable text based interface of the status of your hosts similar to the AWS web
+console.  An example of its usage appears below:
 
 ![Instances](http://i.imgur.com/VEC8V.png)
 
@@ -31,6 +31,8 @@ After you have the gem installed you will need to _initialize_ it to install a c
 ```bash
 claws --init
 ```
+
+Read more about the configuration file in [wiki post](https://github.com/wbailey/claws/wiki/Configuration-file)
 
 ### Usage
 
