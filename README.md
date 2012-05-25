@@ -32,7 +32,7 @@ After you have the gem installed you will need to _initialize_ it to install a c
 claws --init
 ```
 
-Read more about the configuration file in [wiki post](https://github.com/wbailey/claws/wiki/Configuration-file)
+Read more about the configuration file in this [wiki post](https://github.com/wbailey/claws/wiki/Configuration-file)
 
 ### Usage
 
