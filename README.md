@@ -1,12 +1,10 @@
-## Command Line AWS
+## Command Line AWS (CLAWS) [![Build Status](https://secure.travis-ci.org/wbailey/claws.png?branch=master)](http://travis-ci.org/wbailey/claws) 
 
 This tool provides a simple and powerful way to interact with the hosts in your Amazon Web Services
 account via the command line.
 
-[![Build Status](https://secure.travis-ci.org/wbailey/claws.png?branch=master)](http://travis-ci.org/wbailey/claws)
-
-An example of its usage appears below.  It provides a text based interface of the status of your
-hosts like similar to the AWS web console:
+It provides a text based interface of the status of your hosts like similar to the AWS web console.
+An example of its usage appears below:
 
 ![Instances](http://i.imgur.com/VEC8V.png)
 
