@@ -7,13 +7,6 @@ module Claws
         AWS.config(credentials)
         AWS.start_memoizing
       end
-
-      # Seems unnecessary
-      def self.build
-        collection = []
-        yield(collection)
-        collection
-      end
     end
   end
 end
