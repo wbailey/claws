@@ -13,7 +13,7 @@ describe Claws::Collection::Base do
   end
 
   let(:config) do
-    double('Claws::Configuration', :aws_credentials => credentials)
+    double('Claws::Configuration', :aws => credentials)
   end
 
   it 'establishes a connection to the mothership' do
@@ -21,7 +21,7 @@ describe Claws::Collection::Base do
     AWS.should_receive(:start_memoizing).and_return(nil)
 
     expect {
-      subject.connect(config.aws_credentials)
+      subject.new(config)
     }.to_not raise_exception
   end
 end

@@ -10,10 +10,8 @@ module Claws
           exit 1
         end
 
-        Claws::Collection::EC2.connect( config.aws )
-
         begin
-          instances = Claws::Collection::EC2.get
+          instances = Claws::Collection::EC2.new(config).get
         rescue Exception => e
           puts e.message
         end

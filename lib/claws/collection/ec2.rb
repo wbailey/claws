@@ -5,11 +5,19 @@ require 'claws/presenter/ec2'
 module Claws
   module Collection
     class EC2 < Claws::Collection::Base
-      def self.get(filters = {})
+      def get(filters = {})
         collection = []
-        AWS::EC2.new.instances.each do |instance|
-          collection << Claws::EC2::Presenter.new(instance)
+
+        AWS::EC2.new.regions.each do |region|
+          if config.ec2.regions
+            next unless config.ec2.regions.include?(region.name)
+          end
+
+          region.instances.each do |instance|
+            collection << Claws::EC2::Presenter.new(instance)
+          end
         end
+
         collection
       end
     end

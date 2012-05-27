@@ -50,10 +50,14 @@ describe Claws::Command::EC2 do
       let(:options) { OpenStruct.new( { :config_file => nil, } ) }
 
       context 'instance collections' do
-
         it 'retrieves' do
-          Claws::Collection::EC2.should_receive(:connect).and_return(true)
-          Claws::Collection::EC2.should_receive(:get).and_return([])
+          Claws::Collection::EC2.should_receive(:new).and_return(
+            double(Claws::Collection::EC2, :get => 
+              [
+                double(AWS::EC2::Instance, :id => 'test', :status => 'running', :dns_name => 'test.com'),
+              ]
+            )
+          )
 
           capture_stdout {
             subject.exec options
@@ -61,9 +65,11 @@ describe Claws::Command::EC2 do
         end
 
         it 'handles errors retrieving' do
-          Claws::Collection::EC2.should_receive(:connect).and_return(true)
-          Claws::Collection::EC2.should_receive(:get).and_raise(Exception)
-          subject.should_receive(:puts).once
+          Claws::Collection::EC2.should_receive(:new).and_return(
+            double(Claws::Collection::EC2, :get => Exception.new)
+          )
+
+          #subject.should_receive(:puts).once
 
           expect {
             subject.exec options
@@ -72,8 +78,13 @@ describe Claws::Command::EC2 do
       end
 
       it 'performs report' do
-        Claws::Collection::EC2.should_receive(:connect).and_return(true)
-        Claws::Collection::EC2.should_receive(:get).and_return([])
+        Claws::Collection::EC2.should_receive(:new).and_return(
+          double(Claws::Collection::EC2, :get =>
+            [
+              double(AWS::EC2::Instance, :id => 'test', :status => 'running', :dns_name => 'test.com'),
+            ]
+          )
+        )
 
         expect {
           capture_stdout {
@@ -114,8 +125,9 @@ describe Claws::Command::EC2 do
         end
 
         it 'automatically connects to the server' do
-          Claws::Collection::EC2.should_receive(:connect).and_return(true)
-          Claws::Collection::EC2.should_receive(:get).and_return(instances)
+          Claws::Collection::EC2.should_receive(:new).and_return(
+            double(Claws::Collection::EC2, :get => instances)
+          )
 
           subject.should_receive(:puts).twice
           subject.should_receive(:system).with('ssh test@test.com').and_return(0)
@@ -136,8 +148,9 @@ describe Claws::Command::EC2 do
         end
 
         it 'handles user inputed selection from the command line' do
-          Claws::Collection::EC2.should_receive(:connect).and_return(true)
-          Claws::Collection::EC2.should_receive(:get).and_return(instances)
+          Claws::Collection::EC2.should_receive(:new).and_return(
+            double(Claws::Collection::EC2, :get => instances)
+          )
 
           subject.should_receive(:puts).twice
           subject.should_receive(:system).with('ssh test@test2.com').and_return(0)
@@ -149,8 +162,9 @@ describe Claws::Command::EC2 do
         end
 
         it 'presents a selection and connects to the server' do
-          Claws::Collection::EC2.should_receive(:connect).and_return(true)
-          Claws::Collection::EC2.should_receive(:get).and_return(instances)
+          Claws::Collection::EC2.should_receive(:new).and_return(
+            double(Claws::Collection::EC2, :get => instances)
+          )
 
           subject.should_receive(:gets).and_return('1\n')
           subject.should_receive(:puts).once
@@ -162,8 +176,9 @@ describe Claws::Command::EC2 do
         end
 
         it 'presents a selection and allows a user to quit' do
-          Claws::Collection::EC2.should_receive(:connect).and_return(true)
-          Claws::Collection::EC2.should_receive(:get).and_return(instances)
+          Claws::Collection::EC2.should_receive(:new).and_return(
+            double(Claws::Collection::EC2, :get => instances)
+          )
 
           subject.should_receive(:gets).and_return('q\n')
 

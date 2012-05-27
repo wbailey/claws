@@ -13,6 +13,10 @@ describe Claws::Configuration do
         'aws_user' => 'test',
       },
       'ec2' => {
+        'regions' => [
+          'us-east-1',
+          'eu-east-1',
+        ],
         'fields' => {
           'id' => {
             'width' => 10,
@@ -78,6 +82,12 @@ describe Claws::Configuration do
     context 'EC2' do
       before :each do
         YAML.should_receive(:load_file).and_return(yaml)
+      end
+
+      it 'defines regions' do
+        regions = config.ec2.regions
+        regions[0].should == 'us-east-1'
+        regions[1].should == 'eu-east-1'
       end
 
       context 'fields' do

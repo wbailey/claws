@@ -19,7 +19,12 @@ module Claws
       self.capistrano = OpenStruct.new( yaml['capistrano'] )
       self.ssh = OpenStruct.new( yaml['ssh'] )
       self.aws = yaml['aws']
-      self.ec2 = OpenStruct.new( { :fields => yaml['ec2']['fields'] } )
+      self.ec2 = OpenStruct.new(
+        {
+          :fields => yaml['ec2']['fields'],
+          :regions => yaml['ec2']['regions'],
+        }
+      )
     end
   end
 end
