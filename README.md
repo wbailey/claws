@@ -6,7 +6,7 @@ account via the command line.
 It provides a configurable text based interface of the status of your hosts similar to the AWS web
 console.  An example of its usage appears below:
 
-![Instances](http://i.imgur.com/pqpNj.png)
+![Instances](http://i.imgur.com/xCr7x.png)
 
 It gives you a choice of which host to connect to and invokes the proper ssh command:
 
