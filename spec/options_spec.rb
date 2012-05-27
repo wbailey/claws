@@ -1,8 +1,6 @@
 require 'spec_helper'
 require 'claws/options'
 
-ARGV.clear
-
 def cli(args)
   ARGV.push(*args)
   yield
@@ -15,7 +13,7 @@ describe Claws::Options do
       options = Claws::Options.parse
       options.connect.should be_true
       options.source.should == 'ec2'
-      options.choice.should be_nil
+      options.selection.should be_nil
     end
   end
 
@@ -35,11 +33,11 @@ describe Claws::Options do
 
   it 'accepts a choice flag' do
     cli %w{-c 10} do
-      Claws::Options.parse.choice.should == 10
+      Claws::Options.parse.selection.should == 10
     end
 
     cli %w{--choice 10} do
-      Claws::Options.parse.choice.should == 10
+      Claws::Options.parse.selection.should == 10
     end
   end
 
@@ -47,25 +45,23 @@ describe Claws::Options do
     cli %w{-s elb} do
       options = Claws::Options.parse
       options.source.should == 'elb'
-      options.connect.should be_false
     end
 
     cli %w{--source elb} do
       options = Claws::Options.parse
       options.source.should == 'elb'
-      options.connect.should be_false
     end
   end
 
   context 'capistrano' do
     it 'defines the environment' do
-      cli %w{-s production app} do
+      cli %w{production app} do
         Claws::Options.parse.environment.should == 'production'
       end
     end
 
     it 'defines the role' do
-      cli %w{-s production app} do
+      cli %w{production app} do
         Claws::Options.parse.role.should == 'app'
       end
     end

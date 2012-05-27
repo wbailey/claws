@@ -4,35 +4,7 @@ require 'optparse'
 require 'ostruct'
 require 'yaml'
 
-options = OpenStruct.new(
-  {
-    :config_file => nil,
-    :connect => true,
-    :initialize => false,
-    :version => false,
-    :selection => nil,
-  }
-)
-
-OptionParser.new do |opts|
-  opts.banner = 'Usage: claws [options]'
-
-  opts.on('-s', '--status-only', 'Display host status only and exit') do
-    options.connect = false
-  end
-
-  opts.on('-c', '--choice N', Float, 'Enter the number of the host to automatically connect to') do |n|
-    options.selection = n.to_i
-  end
-
-  opts.on('-i', '--init', 'Install the default configuration file for the application') do
-    options.initialize = true
-  end
-
-  opts.on('-v', '--version', 'Display the version number and exit') do
-    options.version = true
-  end
-end.parse!
+options = Claws::Options.parse
 
 Claws::Command::Initialize.exec if options.initialize
 
