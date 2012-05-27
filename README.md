@@ -46,9 +46,11 @@ The full list of options includes:
 
 ```bash
 Usage: claws [options]
-    -s, --status-only                Display host status only and exit
+    -d, --display-only               Display host status only and exit
     -c, --choice N                   Enter the number of the host to automatically connect to
     -i, --init                       Install the default configuration file for the application
+    -s, --source S                   define the AWS source - default is ec2
+    -v, --version                    Display the version number and exit
 ```
 
 ### To Do
