@@ -6,10 +6,15 @@ module Claws
     class Presenter
       attr_writer :roles
 
-      def initialize(instance, has_roles = [])
+      def initialize(instance, options = {})
         @ec2 = instance.extend(Claws::Support)
-        @roles = has_roles
+        @roles = options[:roles] || []
+        @region = options[:region]
         freeze
+      end
+
+      def region
+        @region || 'N/A'
       end
 
       def roles

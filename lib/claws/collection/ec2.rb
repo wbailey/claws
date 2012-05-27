@@ -14,7 +14,7 @@ module Claws
           end
 
           region.instances.each do |instance|
-            collection << Claws::EC2::Presenter.new(instance)
+            collection << Claws::EC2::Presenter.new(instance, :region => region.name)
           end
         end
 
