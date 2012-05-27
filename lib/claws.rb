@@ -1,6 +1,8 @@
+require 'claws/version'
 require 'claws/options'
 require 'claws/configuration'
 require 'claws/collection/ec2'
 require 'claws/report/ec2'
 require 'claws/command/initialize'
 require 'claws/command/ec2'
+require 'claws/command/version'

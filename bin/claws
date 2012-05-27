@@ -9,6 +9,7 @@ options = OpenStruct.new(
     :config_file => nil,
     :connect => true,
     :initialize => false,
+    :version => false,
     :selection => nil,
   }
 )
@@ -27,10 +28,14 @@ OptionParser.new do |opts|
   opts.on('-i', '--init', 'Install the default configuration file for the application') do
     options.initialize = true
   end
+
+  opts.on('-v', '--version', 'Display the version number and exit') do
+    options.version = true
+  end
 end.parse!
 
-if options.initialize
-  Claws::Command::Initialize.exec
-else
-  Claws::Command::EC2.exec options
-end
+Claws::Command::Initialize.exec if options.initialize
+
+Claws::Command::Version.exec if options.version
+
+Claws::Command::EC2.exec options
