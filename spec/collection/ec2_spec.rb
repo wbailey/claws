@@ -18,8 +18,8 @@ describe Claws::Collection::EC2 do
         :name => 'us-east-1',
         :instances => 
           [
-            double('AWS::EC2::Instance'),
-            double('AWS::EC2::Instance'),
+            double('AWS::EC2::Instance', :public_dns => 'host1.test.com'),
+            double('AWS::EC2::Instance', :public_dns => 'host2.test.com'),
           ],
       ),
       double('AWS::EC2::Region',
