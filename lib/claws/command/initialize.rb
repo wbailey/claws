@@ -10,6 +10,7 @@ module Claws
           },
           'ssh' => {
             'user' => nil,
+            'identity' => nil,
           },
           'aws' => {
             'access_key_id' => nil,
