@@ -33,7 +33,9 @@ module Claws
 
           puts 'connecting to server...'
 
-          system "ssh #{config.ssh.user}@#{instances[selection.to_i].dns_name}"
+          identity = config.ssh.identity.nil? ? '' : "-i #{config.ssh.identity} "
+
+          system "ssh #{identity}#{config.ssh.user}@#{instances[selection.to_i].dns_name}"
         end
       end
     end
