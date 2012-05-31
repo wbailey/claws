@@ -33,7 +33,11 @@ module Claws
 
           puts 'connecting to server...'
 
-          system "ssh #{config.ssh.user}@#{instances[selection.to_i].dns_name}"
+          if instances[selection.to_i].vpc?
+            system "ssh #{config.ssh.user}@#{instances[selection.to_i].private_ip_address}"
+          else
+            system "ssh #{config.ssh.user}@#{instances[selection.to_i].dns_name}"
+          end
         end
       end
     end
