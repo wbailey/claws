@@ -6,11 +6,7 @@ require 'yaml'
 
 options = Claws::Options.parse
 
-if options.initialize
-  Claws::Command::Initialize.exec
-  puts "Please enter your access key id and secret access key in #{$HOME}/.claws.yml"
-  exit 0
-end
+Claws::Command::Initialize.exec if options.initialize
 
 Claws::Command::Version.exec if options.version
 

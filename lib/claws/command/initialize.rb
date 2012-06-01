@@ -55,9 +55,16 @@ module Claws
         }
 
         conf = File.join(ENV['HOME'], '.claws.yml')
-        puts "Creating configuration file: #{conf}\n..."
-        File.open(conf, 'w').write(h.to_yaml)
-        puts 'Complete!'
+
+        if File.exists?(conf)
+          puts "Configuration file #{conf} exists!  Either remove or modify contents."
+          exit 1
+        else
+          puts "Creating configuration file: #{conf}\n..."
+          File.open(conf, 'w').write(h.to_yaml)
+          puts "Complete!\nPlease enter your access key id and secret access key in #{conf}"
+          exit 0
+        end
       end
     end
   end
