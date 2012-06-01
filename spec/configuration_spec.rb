@@ -7,6 +7,10 @@ describe Claws::Configuration do
       'capistrano' => {
         'home' => 'test',
       },
+      'ssh' => {
+        'user' => 'test',
+        'identity' => 'test/id_rsa',
+      },
       'aws' => {
         'access_key_id' => 'asdf',
         'secret_access_key' => 'qwer',
@@ -58,6 +62,20 @@ describe Claws::Configuration do
       it 'defines home' do
         YAML.should_receive(:load_file).and_return(yaml)
         config.capistrano.home.should == 'test'
+      end
+    end
+
+    context 'SSH' do
+      before :each do
+        YAML.should_receive(:load_file).and_return(yaml)
+      end
+
+      it 'defines user' do
+        config.ssh.user.should == 'test'
+      end
+
+      it 'defines the identity file' do
+        config.ssh.identity.should == 'test/id_rsa'
       end
     end
 
