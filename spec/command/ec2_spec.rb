@@ -52,7 +52,7 @@ describe Claws::Command::EC2 do
       context 'instance collections' do
         it 'retrieves' do
           Claws::Collection::EC2.should_receive(:new).and_return(
-            double(Claws::Collection::EC2, :get => 
+            double(Claws::Collection::EC2, :get =>
               [
                 double(AWS::EC2::Instance, :id => 'test', :status => 'running', :dns_name => 'test.com'),
               ]
@@ -102,7 +102,9 @@ describe Claws::Command::EC2 do
           OpenStruct.new(
             {
               :ssh => OpenStruct.new(
-                { :user => 'test' }
+                { :user => 'test',
+                  :identity => 'my_id'
+                }
               ),
               :ec2 => OpenStruct.new(
                 :fields => {
@@ -117,10 +119,32 @@ describe Claws::Command::EC2 do
         )
       end
 
+      context 'vpc' do
+        let(:instances) do
+          [
+            double(AWS::EC2::Instance, :id => 'test', :status => 'running', :private_ip_address => 'secret.com', :vpc? => true)
+          ]
+        end
+
+        it 'automatically connects to the server using private ip address' do
+          Claws::Collection::EC2.should_receive(:new).and_return(
+            double(Claws::Collection::EC2, :get => instances)
+          )
+
+          subject.should_receive(:puts).twice
+          subject.should_receive(:system).with('ssh -i my_id test@secret.com').and_return(0)
+
+          capture_stdout {
+            subject.exec options
+          }
+        end
+
+      end
+
       context 'single instance' do
         let(:instances) do
           [
-            double(AWS::EC2::Instance, :id => 'test', :status => 'running', :dns_name => 'test.com')
+            double(AWS::EC2::Instance, :id => 'test', :status => 'running', :dns_name => 'test.com', :vpc? => false)
           ]
         end
 
@@ -130,7 +154,7 @@ describe Claws::Command::EC2 do
           )
 
           subject.should_receive(:puts).twice
-          subject.should_receive(:system).with('ssh test@test.com').and_return(0)
+          subject.should_receive(:system).with('ssh -i my_id test@test.com').and_return(0)
 
           capture_stdout {
             subject.exec options
@@ -141,9 +165,9 @@ describe Claws::Command::EC2 do
       context 'multiple instances' do
         let(:instances) do
           [
-            double(AWS::EC2::Instance, :id => 'test1', :status => 'running', :dns_name => 'test1.com'),
-            double(AWS::EC2::Instance, :id => 'test2', :status => 'running', :dns_name => 'test2.com'),
-            double(AWS::EC2::Instance, :id => 'test3', :status => 'running', :dns_name => 'test3.com'),
+            double(AWS::EC2::Instance, :id => 'test1', :status => 'running', :dns_name => 'test1.com', :vpc? => false),
+            double(AWS::EC2::Instance, :id => 'test2', :status => 'running', :dns_name => 'test2.com', :vpc? => false),
+            double(AWS::EC2::Instance, :id => 'test3', :status => 'running', :dns_name => 'test3.com', :vpc? => false),
           ]
         end
 
@@ -153,7 +177,7 @@ describe Claws::Command::EC2 do
           )
 
           subject.should_receive(:puts).twice
-          subject.should_receive(:system).with('ssh test@test2.com').and_return(0)
+          subject.should_receive(:system).with('ssh -i my_id test@test2.com').and_return(0)
 
           capture_stdout {
             subject.exec OpenStruct.new( {:selection => 1, :config_file => nil, :connect => true} )
@@ -168,7 +192,7 @@ describe Claws::Command::EC2 do
 
           subject.should_receive(:gets).and_return('1\n')
           subject.should_receive(:puts).once
-          subject.should_receive(:system).with('ssh test@test2.com').and_return(0)
+          subject.should_receive(:system).with('ssh -i my_id test@test2.com').and_return(0)
 
           capture_stdout {
             subject.exec options

@@ -33,7 +33,13 @@ module Claws
 
           puts 'connecting to server...'
 
-          system "ssh #{config.ssh.user}@#{instances[selection.to_i].dns_name}"
+          identity = config.ssh.identity.nil? ? '' : "-i #{config.ssh.identity}"
+
+          instance = instances[selection.to_i]
+
+          hostname = instance.vpc? ? instance.private_ip_address : instance.dns_name
+
+          system "ssh #{identity} #{config.ssh.user}@#{hostname}"
         end
       end
     end
