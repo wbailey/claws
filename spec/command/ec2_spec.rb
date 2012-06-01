@@ -102,7 +102,9 @@ describe Claws::Command::EC2 do
           OpenStruct.new(
             {
               :ssh => OpenStruct.new(
-                { :user => 'test' }
+                { :user => 'test',
+                  :identity => 'my_id'
+                }
               ),
               :ec2 => OpenStruct.new(
                 :fields => {
@@ -130,7 +132,7 @@ describe Claws::Command::EC2 do
           )
 
           subject.should_receive(:puts).twice
-          subject.should_receive(:system).with('ssh test@secret.com').and_return(0)
+          subject.should_receive(:system).with('ssh -i my_id test@secret.com').and_return(0)
 
           capture_stdout {
             subject.exec options
@@ -152,7 +154,7 @@ describe Claws::Command::EC2 do
           )
 
           subject.should_receive(:puts).twice
-          subject.should_receive(:system).with('ssh test@test.com').and_return(0)
+          subject.should_receive(:system).with('ssh -i my_id test@test.com').and_return(0)
 
           capture_stdout {
             subject.exec options
@@ -175,7 +177,7 @@ describe Claws::Command::EC2 do
           )
 
           subject.should_receive(:puts).twice
-          subject.should_receive(:system).with('ssh test@test2.com').and_return(0)
+          subject.should_receive(:system).with('ssh -i my_id test@test2.com').and_return(0)
 
           capture_stdout {
             subject.exec OpenStruct.new( {:selection => 1, :config_file => nil, :connect => true} )
@@ -190,7 +192,7 @@ describe Claws::Command::EC2 do
 
           subject.should_receive(:gets).and_return('1\n')
           subject.should_receive(:puts).once
-          subject.should_receive(:system).with('ssh test@test2.com').and_return(0)
+          subject.should_receive(:system).with('ssh -i my_id test@test2.com').and_return(0)
 
           capture_stdout {
             subject.exec options

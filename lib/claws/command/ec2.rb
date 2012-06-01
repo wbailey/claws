@@ -33,12 +33,20 @@ module Claws
 
           puts 'connecting to server...'
 
+          identity = config.ssh.identity.nil? ? '' : "-i #{config.ssh.identity}"
+          current_instance = instances[selection.to_i]
+          ssh_opts = {:identity => identity, :ssh_user => config.ssh.user}
+
           if instances[selection.to_i].vpc?
-            system "ssh #{config.ssh.user}@#{instances[selection.to_i].private_ip_address}"
+            ssh(ssh_opts.merge(:host => current_instance.private_ip_address))
           else
-            system "ssh #{config.ssh.user}@#{instances[selection.to_i].dns_name}"
+            ssh(ssh_opts.merge(:host => current_instance.dns_name))
           end
         end
+      end
+
+      def self.ssh(opts={})
+        system "ssh #{opts[:identity]} #{opts[:ssh_user]}@#{opts[:host]}"
       end
     end
   end
