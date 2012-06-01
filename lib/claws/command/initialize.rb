@@ -60,9 +60,9 @@ module Claws
           puts "Configuration file #{conf} exists!  Either remove or modify contents."
           exit 1
         else
-          puts "Creating configuration file: #{conf}\n..."
+          print "Creating configuration file: #{conf}..."
           File.open(conf, 'w').write(h.to_yaml)
-          puts "Complete!\nPlease enter your access key id and secret access key in #{conf}"
+          puts "Complete!\nEnter your access key id and secret access key to access your AWS account."
           exit 0
         end
       end
