@@ -10,6 +10,7 @@ module Claws
           },
           'ssh' => {
             'user' => nil,
+            'identity' => nil,
           },
           'aws' => {
             'access_key_id' => nil,
@@ -54,9 +55,16 @@ module Claws
         }
 
         conf = File.join(ENV['HOME'], '.claws.yml')
-        puts "Creating configuration file: #{conf}\n..."
-        File.open(conf, 'w').write(h.to_yaml)
-        puts 'Complete!'
+
+        if File.exists?(conf)
+          puts "Configuration file #{conf} exists!  Either remove or modify contents."
+          exit 1
+        else
+          print "Creating configuration file: #{conf}..."
+          File.open(conf, 'w').write(h.to_yaml)
+          puts "Complete!\nEnter your access key id and secret access key to access your AWS account."
+          exit 0
+        end
       end
     end
   end
