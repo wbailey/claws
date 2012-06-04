@@ -41,7 +41,8 @@ module Claws
 
               self.config.ec2.fields.each do |field, properties|
                 props = ( field == 'status' ) ? {:color => color} : {}
-                column i.send( field ), props
+                field_alias = field == 'id' ? 'instance_id' : field  # This makes 1.8.7 not spit out a warning
+                column i.send( field_alias ), props
               end
             end
 
