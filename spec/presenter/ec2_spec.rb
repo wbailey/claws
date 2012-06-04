@@ -38,7 +38,7 @@ describe Claws::EC2::Presenter do
     it 'requires a valid ec2 instance' do
       expect {
         subject.new
-      }.to raise_error =~ /ArgumentError/
+      }.should raise_exception ArgumentError
     end
   end
 

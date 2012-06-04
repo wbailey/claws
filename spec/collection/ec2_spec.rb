@@ -20,7 +20,7 @@ describe Claws::Collection::EC2 do
           [
             double('AWS::EC2::Instance'),
             double('AWS::EC2::Instance'),
-          ],
+          ]
       ),
       double('AWS::EC2::Region',
         :name => 'eu-east-1',
@@ -28,7 +28,7 @@ describe Claws::Collection::EC2 do
           [
             double('AWS::EC2::Instance'),
             double('AWS::EC2::Instance'),
-          ],
+          ]
       ),
     ]
   end
@@ -44,7 +44,7 @@ describe Claws::Collection::EC2 do
 
       config = double('Claws::Configuration',
         :aws => credentials,
-        :ec2 => OpenStruct.new({:regions => nil}),
+        :ec2 => OpenStruct.new({:regions => nil})
       )
 
       subject.new(config).get.size.should == 4
@@ -60,7 +60,7 @@ describe Claws::Collection::EC2 do
 
       config = double('Claws::Configuration',
         :aws => credentials,
-        :ec2 => OpenStruct.new({:regions => %w(us-east-1 eu-east-1)}),
+        :ec2 => OpenStruct.new({:regions => %w(us-east-1 eu-east-1)})
       )
 
       subject.new(config).get.size.should == 4
@@ -77,7 +77,7 @@ describe Claws::Collection::EC2 do
 
     config = double('Claws::Configuration',
       :aws => credentials,
-      :ec2 => OpenStruct.new({:regions => %w(us-east-1)}),
+      :ec2 => OpenStruct.new({:regions => %w(us-east-1)})
     )
 
     subject.new(config).get.size.should == 2
