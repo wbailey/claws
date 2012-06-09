@@ -27,6 +27,16 @@ module Claws
       end
     end
 
+    def environment(host)
+      data = self.all_host_roles
+
+      environments = data.keys
+
+      environments.each do |env|
+        return env.to_s if data[env].has_key?(host)
+      end
+    end
+
     private
 
     def get_roles(environment)

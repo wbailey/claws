@@ -82,4 +82,25 @@ describe Claws::Collection::EC2 do
 
     subject.new(config).get.size.should == 2
   end
+
+  context 'capistrano' do
+    it 'adds environment to the instance definition' do
+      AWS.should_receive(:config).with(credentials).and_return(true)
+      AWS.should_receive(:start_memoizing).and_return(nil)
+
+      AWS::EC2.should_receive(:new).and_return(
+        double('AWS::EC2::RegionsCollection', :regions => regions)
+      )
+
+      config = double('Claws::Configuration',
+        :aws => credentials,
+        :ec2 => OpenStruct.new({:regions => %w(us-east-1)})
+      )
+
+      collection = subject.new(config).get
+
+      collection[0].environment.should == 'production'
+    end
+  end
+
 end

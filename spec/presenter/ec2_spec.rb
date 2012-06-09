@@ -27,8 +27,9 @@ describe Claws::EC2::Presenter do
 
     cap = double('Claws::Capistrano')
     cap.stub(:roles).with(host).and_return(%w{app web})
+    cap.stub(:environment).with(host).and_return('production')
 
-    @full_presenter = subject.new(full_instance, :region => 'us-east-1', :roles => cap.roles(full_instance.public_dns))
+    @full_presenter = subject.new(full_instance, :region => 'us-east-1', :roles => cap.roles(full_instance.public_dns), :environment => cap.environment(full_instance.public_dns))
 
     less_instance = double(AWS::EC2, :tags => nil)
     @less_presenter = subject.new(less_instance)
@@ -39,6 +40,16 @@ describe Claws::EC2::Presenter do
       expect {
         subject.new
       }.to raise_exception ArgumentError
+    end
+  end
+
+  describe '#environment' do
+    it 'can be defined' do
+      @full_presenter.environment.should == 'production'
+    end
+
+    it 'is not required' do
+      @less_presenter.environment.should == 'N/A'
     end
   end
 

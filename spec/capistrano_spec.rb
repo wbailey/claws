@@ -71,4 +71,14 @@ describe Claws::Capistrano do
     cap = Claws::Capistrano.new
     cap.roles('ec2-263-56-231-91.compute-1.amazonaws.com').should == %w{app web}
   end
+
+  it 'returns environment for host' do
+    Dir.should_receive(:glob).and_return(%W{#{@default_path}/staging.rb #{@default_path}/production.rb})
+    File.should_receive(:readlines).with("#{@default_path}/staging.rb").and_return(@roles[:staging])
+    File.should_receive(:readlines).with("#{@default_path}/production.rb").and_return(@roles[:production])
+
+    cap = Claws::Capistrano.new
+    cap.environment('ec2-263-56-231-91.compute-1.amazonaws.com').should == 'production'
+    cap.environment('ec2-147-32-151-54.compute-1.amazonaws.com').should == 'staging'
+  end
 end

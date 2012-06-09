@@ -4,17 +4,22 @@ require 'claws/support'
 module Claws
   module EC2
     class Presenter
-      attr_writer :roles
+      attr_writer :roles, :environment
 
       def initialize(instance, options = {})
         @ec2 = instance.extend(Claws::Support)
         @roles = options[:roles] || []
         @region = options[:region]
+        @environment = options[:environment] || ''
         freeze
       end
 
       def region
         @region || 'N/A'
+      end
+
+      def environment
+        @environment.empty? ? 'N/A' : @environment
       end
 
       def roles
