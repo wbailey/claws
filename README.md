@@ -1,4 +1,4 @@
-## Command Line AWS (CLAWS) [![Build Status](https://secure.travis-ci.org/wbailey/claws.png?branch=master)](http://travis-ci.org/wbailey/claws) 
+## Command Line AWS (CLAWS) [![Build Status](https://secure.travis-ci.org/wbailey/claws.png?branch=master)](http://travis-ci.org/wbailey/claws) [![Code Climate](https://codeclimate.com/github/wbailey/claws.png)](https://codeclimate.com/github/wbailey/claws)
 
 This tool provides a simple and powerful way to interact with the hosts in your Amazon Web Services
 account via the command line.
