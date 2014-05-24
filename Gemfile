@@ -6,7 +6,7 @@ gem 'rspec', '>=2.4'
 gem 'rake'
 
 group :development do
-  gem 'debugger'
+  gem 'debugger2'
   gem 'autotest'
   gem 'autotest-growl'
   gem 'autotest-fsevent'
