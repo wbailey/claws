@@ -55,7 +55,7 @@ describe Claws::Configuration do
 
       expect {
         Claws::Configuration.new
-      }.should raise_exception Claws::ConfigurationError
+      }.to raise_exception Claws::ConfigurationError
     end
 
     context 'Capistrano' do

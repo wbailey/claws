@@ -36,7 +36,7 @@ module Claws
                       'white'
                     end
 
-            row do
+            row color: 'white' do
               column choice
 
               self.config.ec2.fields.each do |field, properties|

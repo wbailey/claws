@@ -12,7 +12,7 @@ describe Claws::Command::EC2 do
 
         expect {
           subject.exec options
-        }.should raise_exception SystemExit
+        }.to raise_exception SystemExit
       end
 
       it 'invalid file' do
@@ -22,7 +22,7 @@ describe Claws::Command::EC2 do
 
         expect {
           subject.exec options
-        }.should raise_exception SystemExit
+        }.to raise_exception SystemExit
       end
     end
 
@@ -73,7 +73,7 @@ describe Claws::Command::EC2 do
 
           expect {
             subject.exec options
-          }.should raise_exception
+          }.to raise_exception
         end
       end
 
@@ -90,7 +90,7 @@ describe Claws::Command::EC2 do
           capture_stdout {
             subject.exec options
           }
-        }.should_not raise_exception
+        }.to_not raise_exception
       end
     end
 
@@ -210,7 +210,7 @@ describe Claws::Command::EC2 do
             capture_stdout {
               subject.exec options
             }
-          }.should raise_exception SystemExit
+          }.to raise_exception SystemExit
         end
       end
     end
