@@ -5,9 +5,12 @@ gem 'command_line_reporter'
 gem 'rspec', '>=2.4'
 gem 'rake'
 
-group :development do
-  gem 'debugger2'
+group :test do
   gem 'autotest'
   gem 'autotest-growl'
   gem 'autotest-fsevent'
+end
+
+group :development do
+  gem 'debugger2'
 end

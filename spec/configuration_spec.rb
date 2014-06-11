@@ -39,86 +39,86 @@ describe Claws::Configuration do
 
   describe '#initialize' do
     it 'defines default path' do
-      YAML.should_receive(:load_file).and_return( yaml )
+      expect(YAML).to receive(:load_file).and_return( yaml )
       c = Claws::Configuration.new
-      c.path.should == File.join(ENV['HOME'], '.claws.yml')
+      expect(c.path).to eq(File.join(ENV['HOME'], '.claws.yml'))
     end
 
     it 'defines a custom path' do
-      YAML.should_receive(:load_file).and_return( yaml )
+      expect(YAML).to receive(:load_file).and_return( yaml )
       c = Claws::Configuration.new '/home/test'
-      c.path.should == '/home/test'
+      expect(c.path).to eq('/home/test')
     end
 
     it 'raises ConfigurationError' do
-      YAML.should_receive(:load_file).and_raise( Exception.new )
+      expect(YAML).to receive(:load_file).and_raise( Exception.new )
 
       expect {
         Claws::Configuration.new
-      }.to raise_exception Claws::ConfigurationError
+      }.to raise_exception(Claws::ConfigurationError)
     end
 
     context 'Capistrano' do
       it 'defines home' do
-        YAML.should_receive(:load_file).and_return(yaml)
-        config.capistrano.home.should == 'test'
+        expect(YAML).to receive(:load_file).and_return(yaml)
+        expect(config.capistrano.home).to eq('test')
       end
     end
 
     context 'SSH' do
       before :each do
-        YAML.should_receive(:load_file).and_return(yaml)
+        expect(YAML).to receive(:load_file).and_return(yaml)
       end
 
       it 'defines user' do
-        config.ssh.user.should == 'test'
+        expect(config.ssh.user).to eq('test')
       end
 
       it 'defines the identity file' do
-        config.ssh.identity.should == 'test/id_rsa'
+        expect(config.ssh.identity).to eq('test/id_rsa')
       end
     end
 
     context 'AWS' do
       before :each do
-        YAML.should_receive(:load_file).and_return(yaml)
+        expect(YAML).to receive(:load_file).and_return(yaml)
       end
 
       it 'defines user' do
-        config.aws['aws_user'].should == 'test'
+        expect(config.aws['aws_user']).to eq('test')
       end
 
       it 'defines secret access key' do
-        config.aws['secret_access_key'].should == 'qwer'
+        expect(config.aws['secret_access_key']).to eq('qwer')
       end
 
       it 'defines access key id' do
-        config.aws['access_key_id'].should == 'asdf'
+        expect(config.aws['access_key_id']).to eq('asdf')
       end
     end
 
     context 'EC2' do
       before :each do
-        YAML.should_receive(:load_file).and_return(yaml)
+        expect(YAML).to receive(:load_file).and_return(yaml)
       end
 
       it 'defines regions' do
         regions = config.ec2.regions
-        regions[0].should == 'us-east-1'
-        regions[1].should == 'eu-east-1'
+        expect(regions[0]).to eq('us-east-1')
+        expect(regions[1]).to eq('eu-east-1')
       end
 
       context 'fields' do
         it 'defines id hash' do
           id = config.ec2.fields['id']
-          id['width'].should == 10
-          id['title'].should == 'ID'
+          expect(id['width']).to eq(10)
+          expect(id['title']).to eq('ID')
         end
 
         it 'defines name hash' do
           name = config.ec2.fields['name']
-          name['width'].should == 20
-          name['title'].should == 'Name'
+          expect(name['width']).to eq(20)
+          expect(name['title']).to eq('Name')
         end
       end
     end
