@@ -12,5 +12,6 @@ group :test do
 end
 
 group :development do
-  gem 'debugger2'
+  gem 'pry'
+  gem 'rubocop'
 end
