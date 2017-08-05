@@ -22,23 +22,27 @@ module Claws
       end
 
       def tags
-        @ec2.try(:tags) ? @ec2.tags.select {|k,v| [k,v] unless k.downcase == 'name'}.map{|k,v| "#{k}: #{v}"}.join(', ') : 'N/A'
+        if @ec2.try(:tags)
+          @ec2.tags.select { |k, v| [k, v] unless k.casecmp('name').zero? }.map { |k, v| "#{k}: #{v}" }.join(', ')
+        else
+          'N/A'
+        end
       end
 
       def security_groups
-        @ec2.try(:security_groups) ? @ec2.security_groups.map {|sg| "#{sg.id}: #{sg.name}"}.join(', ') : 'N/A'
+        @ec2.try(:security_groups) ? @ec2.security_groups.map { |sg| "#{sg.id}: #{sg.name}" }.join(', ') : 'N/A'
       end
 
       def method_missing(meth)
         case meth
         when :name
           @ec2.send(:tags)['Name'] || 'N/A'
-        when @ec2.try(:tags) && @ec2.tags.has_key?(meth)
+        when @ec2.try(:tags) && @ec2.tags.key?(meth)
           @ec2.tags[meth] || 'N/A'
         else
           begin
             @ec2.send(meth)
-          rescue Exception
+          rescue NoMethodError #Exception
             'N/A'
           end
         end

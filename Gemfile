@@ -2,13 +2,11 @@ source 'http://rubygems.org'
 
 gem 'aws-sdk'
 gem 'command_line_reporter'
-gem 'rspec', '>=2.4'
 gem 'rake'
 
 group :test do
   gem 'autotest'
-  gem 'autotest-growl'
-  gem 'autotest-fsevent'
+  gem 'rspec', '~>3.6.0'
 end
 
 group :development do

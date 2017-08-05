@@ -3,60 +3,61 @@ require 'yaml'
 module Claws
   module Command
     class Initialize
+      # rubocop:disable Metrics/MethodLength
       def self.exec
         h = {
-          'capistrano' => {
-            'home' => nil,
+          'capistrano': {
+            'home': nil
           },
-          'ssh' => {
-            'user' => nil,
-            'identity' => nil,
+          'ssh': {
+            'user': nil,
+            'identity': nil
           },
-          'aws' => {
-            'access_key_id' => nil,
-            'secret_access_key' => nil,
+          'aws': {
+            'access_key_id': nil,
+            'secret_access_key': nil
           },
-          'ec2' => {
-            'fields' => {
-              'id' => {
-                'width' => 10,
-                'title' => 'ID',
+          'ec2': {
+            'fields': {
+              'id': {
+                'width': 10,
+                'title': 'ID'
               },
-              'name' => {
-                'width' => 20,
-                'title' => 'Name',
+              'name': {
+                'width': 20,
+                'title': 'Name'
               },
-              'status' => {
-                'width' => 8,
-                'title' => 'Status',
+              'status': {
+                'width': 8,
+                'title': 'Status'
               },
-              'dns_name' => {
-                'width' => 42,
-                'title' => 'DNS Name',
+              'dns_name': {
+                'width': 42,
+                'title': 'DNS Name'
               },
-              'instance_type' => {
-                'width' => 13,
-                'title' => 'Instance Type',
+              'instance_type': {
+                'width': 13,
+                'title': 'Instance Type'
               },
-              'public_ip_address' => {
-                'width' => 16,
-                'title' => 'Public IP',
+              'public_ip_address': {
+                'width': 16,
+                'title': 'Public IP'
               },
-              'private_ip_address' => {
-                'width' => 16,
-                'title' => 'Private IP',
+              'private_ip_address': {
+                'width': 16,
+                'title': 'Private IP'
               },
-              'tags' => {
-                'width' => 30,
-                'title' => 'tags',
-              },
-            },
+              'tags': {
+                'width': 30,
+                'title': 'tags'
+              }
+            }
           }
         }
 
         conf = File.join(ENV['HOME'], '.claws.yml')
 
-        if File.exists?(conf)
+        if File.exist?(conf)
           puts "Configuration file #{conf} exists!  Either remove or modify contents."
           exit 1
         else

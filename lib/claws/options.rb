@@ -2,16 +2,15 @@ require 'ostruct'
 
 module Claws
   class Options
+    # rubocop:disable Metrics/MethodLength
     def self.parse
       options = OpenStruct.new(
-        {
-          :config_file => nil,
-          :connect => true,
-          :initialize => false,
-          :version => false,
-          :selection => nil,
-          :source => 'ec2',
-        }
+        config_file: nil,
+        connect: true,
+        initialize: false,
+        version: false,
+        selection: nil,
+        source: 'ec2'
       )
 
       OptionParser.new do |opts|

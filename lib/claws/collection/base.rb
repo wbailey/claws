@@ -5,10 +5,10 @@ module Claws
     class Base
       attr_accessor :config
 
-      def initialize( config )
+      def initialize(config)
         self.config = config
-        AWS.config(config.aws)
-        AWS.start_memoizing
+        Aws.config(config.aws)
+        Aws.start_memoizing
       end
     end
   end

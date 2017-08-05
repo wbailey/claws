@@ -12,18 +12,17 @@ module Claws
 
       begin
         yaml = YAML.load_file(path)
-      rescue Exception
-        raise ConfigurationError, "Unable to locate configuration file: #{self.path}"
+      rescue Errno::ENOENT
+        raise ConfigurationError, "Unable to locate configuration file: #{path}
+          \nUse the --init option to create a configuration file."
       end
 
-      self.capistrano = OpenStruct.new( yaml['capistrano'] )
-      self.ssh = OpenStruct.new( yaml['ssh'] )
+      self.capistrano = OpenStruct.new(yaml['capistrano'])
+      self.ssh = OpenStruct.new(yaml['ssh'])
       self.aws = yaml['aws']
       self.ec2 = OpenStruct.new(
-        {
-          :fields => yaml['ec2']['fields'],
-          :regions => yaml['ec2']['regions'],
-        }
+        fields: yaml['ec2']['fields'],
+        regions: yaml['ec2']['regions']
       )
     end
   end

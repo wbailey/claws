@@ -54,7 +54,7 @@ describe Claws::Command::EC2 do
           Claws::Collection::EC2.should_receive(:new).and_return(
             double(Claws::Collection::EC2, :get =>
               [
-                double(AWS::EC2::Instance, :id => 'test', :status => 'running', :dns_name => 'test.com'),
+                double(Aws::EC2::Instance, :id => 'test', :status => 'running', :dns_name => 'test.com'),
               ]
             )
           )
@@ -81,7 +81,7 @@ describe Claws::Command::EC2 do
         Claws::Collection::EC2.should_receive(:new).and_return(
           double(Claws::Collection::EC2, :get =>
             [
-              double(AWS::EC2::Instance, :id => 'test', :status => 'running', :dns_name => 'test.com'),
+              double(Aws::EC2::Instance, :id => 'test', :status => 'running', :dns_name => 'test.com'),
             ]
           )
         )
@@ -122,7 +122,7 @@ describe Claws::Command::EC2 do
       context 'vpc' do
         let(:instances) do
           [
-            double(AWS::EC2::Instance, :id => 'test', :status => 'running', :private_ip_address => 'secret.com', :vpc? => true)
+            double(Aws::EC2::Instance, :id => 'test', :status => 'running', :private_ip_address => 'secret.com', :vpc? => true)
           ]
         end
 
@@ -144,7 +144,7 @@ describe Claws::Command::EC2 do
       context 'single instance' do
         let(:instances) do
           [
-            double(AWS::EC2::Instance, :id => 'test', :status => 'running', :dns_name => 'test.com', :vpc? => false)
+            double(Aws::EC2::Instance, :id => 'test', :status => 'running', :dns_name => 'test.com', :vpc? => false)
           ]
         end
 
@@ -165,9 +165,9 @@ describe Claws::Command::EC2 do
       context 'multiple instances' do
         let(:instances) do
           [
-            double(AWS::EC2::Instance, :id => 'test1', :status => 'running', :dns_name => 'test1.com', :vpc? => false),
-            double(AWS::EC2::Instance, :id => 'test2', :status => 'running', :dns_name => 'test2.com', :vpc? => false),
-            double(AWS::EC2::Instance, :id => 'test3', :status => 'running', :dns_name => 'test3.com', :vpc? => false),
+            double(Aws::EC2::Instance, :id => 'test1', :status => 'running', :dns_name => 'test1.com', :vpc? => false),
+            double(Aws::EC2::Instance, :id => 'test2', :status => 'running', :dns_name => 'test2.com', :vpc? => false),
+            double(Aws::EC2::Instance, :id => 'test3', :status => 'running', :dns_name => 'test3.com', :vpc? => false),
           ]
         end
 

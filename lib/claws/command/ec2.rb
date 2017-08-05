@@ -2,45 +2,13 @@ module Claws
   module Command
     class EC2
       def self.exec(options)
-        begin
-          config = Claws::Configuration.new( options.config_file )
-        rescue Claws::ConfigurationError => e
-          puts e.message
-          puts 'Use the --init option to create a configuration file.'
-          exit 1
-        end
+        config = Claws::Configuration.new(options.config_file)
 
-        begin
-          instances = Claws::Collection::EC2.new(config).get
-        rescue Exception => e
-          puts e.message
-        end
+        instances = Claws::Collection::EC2.new(config).get
 
-        Claws::Report::EC2.new( config, instances ).run
+        Claws::Report::EC2.new(config, instances).run
 
-        if options.connect
-          if instances.size == 1
-            puts
-            selection = 0
-          elsif options.selection
-            puts
-            selection = options.selection
-          else
-            print "Select server (enter q to quit): "
-            selection = gets.chomp
-            exit 0 if selection.match(/^q.*/i)
-          end
-
-          puts 'connecting to server...'
-
-          identity = config.ssh.identity.nil? ? '' : "-i #{config.ssh.identity}"
-
-          instance = instances[selection.to_i]
-
-          hostname = instance.vpc? ? instance.private_ip_address : instance.dns_name
-
-          system "ssh #{identity} #{config.ssh.user}@#{hostname}"
-        end
+        Claws::CLI::EC2.new(instances, config, options).run if options.connect
       end
     end
   end

@@ -14,20 +14,20 @@ describe Claws::Collection::EC2 do
 
   let(:regions) do
     [
-      double('AWS::EC2::Region',
+      double('Aws::EC2::Region',
         :name => 'us-east-1',
         :instances => 
           [
-            double('AWS::EC2::Instance'),
-            double('AWS::EC2::Instance'),
+            double('Aws::EC2::Instance'),
+            double('Aws::EC2::Instance'),
           ]
       ),
-      double('AWS::EC2::Region',
+      double('Aws::EC2::Region',
         :name => 'eu-east-1',
         :instances => 
           [
-            double('AWS::EC2::Instance'),
-            double('AWS::EC2::Instance'),
+            double('Aws::EC2::Instance'),
+            double('Aws::EC2::Instance'),
           ]
       ),
     ]
@@ -35,11 +35,11 @@ describe Claws::Collection::EC2 do
 
   context 'gets all instances in regions' do
     it 'not defined in configuration' do
-      AWS.should_receive(:config).with(credentials).and_return(true)
-      AWS.should_receive(:start_memoizing).and_return(nil)
+      Aws.should_receive(:config).with(credentials).and_return(true)
+      Aws.should_receive(:start_memoizing).and_return(nil)
 
-      AWS::EC2.should_receive(:new).and_return(
-        double('AWS::EC2::RegionsCollection', :regions => regions)
+      Aws::EC2.should_receive(:new).and_return(
+        double('Aws::EC2::RegionsCollection', :regions => regions)
       )
 
       config = double('Claws::Configuration',
@@ -51,11 +51,11 @@ describe Claws::Collection::EC2 do
     end
 
     it 'defined in configuation' do
-      AWS.should_receive(:config).with(credentials).and_return(true)
-      AWS.should_receive(:start_memoizing).and_return(nil)
+      Aws.should_receive(:config).with(credentials).and_return(true)
+      Aws.should_receive(:start_memoizing).and_return(nil)
 
-      AWS::EC2.should_receive(:new).and_return(
-        double('AWS::EC2::RegionsCollection', :regions => regions)
+      Aws::EC2.should_receive(:new).and_return(
+        double('Aws::EC2::RegionsCollection', :regions => regions)
       )
 
       config = double('Claws::Configuration',
@@ -68,11 +68,11 @@ describe Claws::Collection::EC2 do
   end
 
   it 'gets all instances for specified regions' do
-    AWS.should_receive(:config).with(credentials).and_return(true)
-    AWS.should_receive(:start_memoizing).and_return(nil)
+    Aws.should_receive(:config).with(credentials).and_return(true)
+    Aws.should_receive(:start_memoizing).and_return(nil)
 
-    AWS::EC2.should_receive(:new).and_return(
-      double('AWS::EC2::RegionsCollection', :regions => regions)
+    Aws::EC2.should_receive(:new).and_return(
+      double('Aws::EC2::RegionsCollection', :regions => regions)
     )
 
     config = double('Claws::Configuration',
