@@ -10,27 +10,27 @@ describe Claws::EC2::Presenter do
     host = 'ec2-263-56-231-91.compute-1.amazonaws.com'
 
     full_instance = double('Aws::EC2',
-      :public_dns => host,
-      :security_groups => [
-        double(Aws::EC2::SecurityGroup, :name => 'search', :id => 'sg-0f0f0f0f'),
-        double(Aws::EC2::SecurityGroup, :name => 'mongo', :id => 'sg-0d0d0d0d'),
-        double(Aws::EC2::SecurityGroup, :name => 'app', :id => 'sg-0c0c0c0c'),
+      public_dns: host,
+      security_groups: [
+        double(Aws::EC2::SecurityGroup, name: 'search', id: 'sg-0f0f0f0f'),
+        double(Aws::EC2::SecurityGroup, name: 'mongo', id: 'sg-0d0d0d0d'),
+        double(Aws::EC2::SecurityGroup, name: 'app', id: 'sg-0c0c0c0c'),
       ],
-      :tags => double(Aws::EC2::ResourceTagCollection, :select => [
+      tags: double(Aws::EC2::ResourceTagCollection, select: [
           ['environment', 'production'],
           ['function', 'master'],
         ],
         'has_key?'.to_sym => true
       ),
-      :elastic_ip => '11.111.111.111'
+      elastic_ip: '11.111.111.111'
     )
 
     cap = double('Claws::Capistrano')
     cap.stub(:roles).with(host).and_return(%w{app web})
 
-    @full_presenter = subject.new(full_instance, :region => 'us-east-1', :roles => cap.roles(full_instance.public_dns))
+    @full_presenter = subject.new(full_instance, region: 'us-east-1', roles: cap.roles(full_instance.public_dns))
 
-    less_instance = double(Aws::EC2, :tags => nil)
+    less_instance = double(Aws::EC2, tags: nil)
     @less_presenter = subject.new(less_instance)
   end
 
