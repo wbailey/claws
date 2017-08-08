@@ -2,26 +2,15 @@ require 'spec_helper'
 require 'claws/collection/base'
 require 'claws/configuration'
 
-describe Claws::Collection::Base do
+describe Claws::Collection::Base, '#initialize' do
   subject { Claws::Collection::Base }
 
-  let(:credentials) do
-    {
-      :access_key_id => 'asdf',
-      :secret_access_key => 'qwer'
-    }
-  end
-
-  let(:config) do
-    double('Claws::Configuration', :aws => credentials)
-  end
-
   it 'establishes a connection to the mothership' do
-    AWS.should_receive(:config).with(credentials).and_return(true)
-    AWS.should_receive(:start_memoizing).and_return(nil)
+    credentials = { access_key_id: 'asdf', secret_access_key: 'qwer' }
+    config = double('Claws::Configuration', aws: credentials)
 
-    expect {
-      subject.new(config)
-    }.to_not raise_exception
+    allow(Aws).to receive_message_chain(:config, :update)
+
+    expect { subject.new(config) }.to_not raise_exception
   end
 end

@@ -13,6 +13,7 @@ GEM
     aws-sdk-resources (2.10.21)
       aws-sdk-core (= 2.10.21)
     aws-sigv4 (1.0.1)
+    byebug (9.0.6)
     coderay (1.1.1)
     colored (1.2)
     command_line_reporter (4.0.0)
@@ -61,6 +62,7 @@ PLATFORMS
 DEPENDENCIES
   autotest
   aws-sdk
+  byebug
   command_line_reporter
   pry
   rake

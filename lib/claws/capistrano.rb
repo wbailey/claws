@@ -3,8 +3,8 @@ module Claws
     attr_accessor :home
 
     def initialize(home = nil)
-      home ||= File.join('config', 'deploy')
-      home
+      self.home = home || File.join('config', 'deploy')
+      self.home
     end
 
     def all_host_roles

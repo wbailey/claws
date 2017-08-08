@@ -7,8 +7,7 @@ module Claws
 
       def initialize(config)
         self.config = config
-        Aws.config(config.aws)
-        Aws.start_memoizing
+        Aws.config.update(config.aws)
       end
     end
   end
