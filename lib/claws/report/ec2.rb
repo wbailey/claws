@@ -31,10 +31,10 @@ module Claws
           choice = 0
 
           instances.each do |i|
-            color = case i.status
-                    when :running
+            color = case i.state
+                    when 'running'
                       'green'
-                    when :stopped
+                    when 'stopped'
                       'red'
                     else
                       'white'
@@ -43,8 +43,8 @@ module Claws
             row color: 'white' do
               column choice
 
-              config.ec2.fields.each do |field|
-                props = field == 'status' ? { color: color } : {}
+              config.ec2.fields.each do |field, _|
+                props = field == 'state' ? { color: color } : {}
                 field_alias = field == 'id' ? 'instance_id' : field # This makes 1.8.7 not spit out a warning
                 column i.send(field_alias), props
               end

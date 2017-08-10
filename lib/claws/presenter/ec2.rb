@@ -7,14 +7,14 @@ module Claws
       attr_writer :roles
 
       def initialize(instance, options = {})
-        @ec2 = instance.extend(Claws::Support)
+        @ec2 = instance # .extend(Claws::Support)
         @roles = options[:roles] || []
         @region = options[:region]
         freeze
       end
 
-      def region
-        @region || 'N/A'
+      def state
+        @ec2.state.name
       end
 
       def roles
@@ -22,27 +22,27 @@ module Claws
       end
 
       def tags
-        if @ec2.try(:tags)
-          @ec2.tags.select { |k, v| [k, v] unless k.casecmp('name').zero? }.map { |k, v| "#{k}: #{v}" }.join(', ')
+        if @ec2&.tags
+          @ec2.tags.select { |t| t unless t.key.casecmp('name').zero? }.map { |t| "#{t.key}: #{t.value}" }.join(', ')
         else
           'N/A'
         end
       end
 
       def security_groups
-        @ec2.try(:security_groups) ? @ec2.security_groups.map { |sg| "#{sg.id}: #{sg.name}" }.join(', ') : 'N/A'
+        @ec2&.security_groups ? @ec2.security_groups.map { |sg| "#{sg.id}: #{sg.name}" }.join(', ') : 'N/A'
       end
 
       def method_missing(meth)
         case meth
         when :name
-          @ec2.send(:tags)['Name'] || 'N/A'
-        when @ec2.try(:tags) && @ec2.tags.key?(meth)
-          @ec2.tags[meth] || 'N/A'
+          @ec2.tags.find { |t| t.key.eql?('Name') }.value || 'N/A'
+        when val = @ec2.tags.find { |t| t.key.eql?(meth) }
+          val
         else
           begin
             @ec2.send(meth)
-          rescue NoMethodError #Exception
+          rescue NoMethodError # Exception
             'N/A'
           end
         end

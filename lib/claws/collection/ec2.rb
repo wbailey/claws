@@ -5,16 +5,17 @@ require 'claws/presenter/ec2'
 module Claws
   module Collection
     class EC2 < Claws::Collection::Base
+      def initialize(config)
+        super(config)
+        self.client = Aws::EC2::Client.new(credentials: credentials)
+      end
+
       def get # get(filters = {})
         collection = []
 
-        Aws::EC2.new.regions.each do |region|
-          if config.ec2.regions
-            next unless config.ec2.regions.include?(region.name)
-          end
-
-          region.instances.each do |instance|
-            collection << Claws::EC2::Presenter.new(instance, region: region.name)
+        client.describe_instances.reservations.each do |reservation|
+          reservation.instances.each do |instance|
+            collection << Claws::EC2::Presenter.new(instance)
           end
         end
 

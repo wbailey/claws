@@ -3,11 +3,12 @@ require 'aws-sdk'
 module Claws
   module Collection
     class Base
-      attr_accessor :config
+      attr_accessor :config, :credentials, :client
 
       def initialize(config)
         self.config = config
-        Aws.config.update(config.aws)
+
+        self.credentials = Aws::Credentials.new(config.aws['access_key_id'], config.aws['secret_access_key'])
       end
     end
   end

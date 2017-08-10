@@ -36,7 +36,7 @@ module Claws
 
         hostname = instance.vpc? ? instance.private_ip_address : instance.dns_name
 
-        system "ssh #{identity} #{config.ssh.user}@#{hostname}"
+        system "ssh #{identity} #{config.ssh.user}@#{instance.public_dns_name}"
       end
     end
   end

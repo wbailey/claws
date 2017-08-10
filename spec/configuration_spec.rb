@@ -2,24 +2,24 @@ require 'spec_helper'
 require 'claws/configuration'
 
 describe Claws::Configuration do
-  let (:yaml) do
+  let(:yaml) do
     {
       'capistrano' => {
-        'home' => 'test',
+        'home' => 'test'
       },
       'ssh' => {
         'user' => 'test',
-        'identity' => 'test/id_rsa',
+        'identity' => 'test/id_rsa'
       },
       'aws' => {
         'access_key_id' => 'asdf',
         'secret_access_key' => 'qwer',
-        'aws_user' => 'test',
+        'aws_user' => 'test'
       },
       'ec2' => {
         'regions' => [
           'us-east-1',
-          'eu-east-1',
+          'eu-east-1'
         ],
         'fields' => {
           'id' => {
@@ -29,13 +29,13 @@ describe Claws::Configuration do
           'name' => {
             'width' => 20,
             'title' => 'Name'
-          },
+          }
         }
       }
     }
   end
 
-  let (:config) { Claws::Configuration.new }
+  let(:config) { Claws::Configuration.new }
 
   describe '#initialize' do
     it 'defines default path' do
