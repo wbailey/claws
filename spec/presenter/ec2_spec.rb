@@ -9,24 +9,26 @@ describe Claws::EC2::Presenter do
   before :each do
     host = 'ec2-263-56-231-91.compute-1.amazonaws.com'
 
-    full_instance = double('Aws::EC2',
+    full_instance = double(
+      'Aws::EC2',
       public_dns: host,
       security_groups: [
         double(Aws::EC2::SecurityGroup, name: 'search', id: 'sg-0f0f0f0f'),
         double(Aws::EC2::SecurityGroup, name: 'mongo', id: 'sg-0d0d0d0d'),
-        double(Aws::EC2::SecurityGroup, name: 'app', id: 'sg-0c0c0c0c'),
+        double(Aws::EC2::SecurityGroup, name: 'app', id: 'sg-0c0c0c0c')
       ],
-      tags: double(Aws::EC2::ResourceTagCollection, select: [
-          ['environment', 'production'],
-          ['function', 'master'],
+      tags: double(
+        Aws::EC2::Tag, select: [
+          %w[environment production],
+          %w[function master]
         ],
-        'has_key?'.to_sym => true
+        'has_key?': true
       ),
       elastic_ip: '11.111.111.111'
     )
 
     cap = double('Claws::Capistrano')
-    cap.stub(:roles).with(host).and_return(%w{app web})
+    cap.stub(:roles).with(host).and_return(%w[app web])
 
     @full_presenter = subject.new(full_instance, region: 'us-east-1', roles: cap.roles(full_instance.public_dns))
 
@@ -36,9 +38,7 @@ describe Claws::EC2::Presenter do
 
   describe '#initialize' do
     it 'requires a valid ec2 instance' do
-      expect {
-        subject.new
-      }.to raise_exception ArgumentError
+      expect { subject.new }.to raise_exception ArgumentError
     end
   end
 

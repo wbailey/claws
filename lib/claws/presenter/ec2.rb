@@ -30,7 +30,7 @@ module Claws
       end
 
       def security_groups
-        @ec2&.security_groups ? @ec2.security_groups.map { |sg| "#{sg.id}: #{sg.name}" }.join(', ') : 'N/A'
+        @ec2&.security_groups ? @ec2.security_groups.map { |sg| "#{sg.group_id}: #{sg.group_name}" }.join(', ') : 'N/A'
       end
 
       def method_missing(meth)
