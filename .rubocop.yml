@@ -13,3 +13,4 @@ AllCops:
     - 'Rakefile'
     - '**/*.rake'
     - 'spec/**/*.rb'
+    - '**/*_spec.rb'
